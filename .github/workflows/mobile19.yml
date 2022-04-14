@@ -1,0 +1,30 @@
+on:
+  push:
+    branches:
+      - master
+name: 🚀 Deploy http://skin-mobile19.hoongjp.cafe24.com on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.FTP_USERNAME }}.ftp.cafe24.com
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./test/
+          server-dir: sde_design/mobile19/test/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            /.vscode/**
+            /.idea/**
+            .prettierrc
+            .gitignore
+            *.md
